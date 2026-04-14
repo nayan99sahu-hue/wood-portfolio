@@ -466,14 +466,14 @@ function closeEnquiryOutside(e){
 }
 
 async function submitEnquiry(){
-  const name = document.getElementById('fname').value.trim();
-  const phone = document.getElementById('fphone').value.trim();
-  const product = document.getElementById('fproduct').value;
-  const message = document.getElementById('fmessage').value;
 
-  // validation
+  const name = document.getElementById("fname").value.trim();
+  const phone = document.getElementById("fphone").value.trim();
+  const product = document.getElementById("fproduct").value;
+  const message = document.getElementById("fmessage").value;
+
   if(!name || !phone){
-    alert('Please fill in your name and phone number.');
+    alert("Please fill name and phone");
     return;
   }
 
@@ -491,18 +491,20 @@ async function submitEnquiry(){
       })
     });
 
-    if(res.ok){
-      // show success UI
-      document.getElementById('formContent').style.display='none';
-      document.getElementById('formSuccess').style.display='block';
+    const data = await res.json();
+
+    if(data.success){
+      document.getElementById("formContent").style.display = "none";
+      document.getElementById("formSuccess").style.display = "block";
     } else {
-      alert("Failed to send enquiry. Try again.");
+      alert("Failed: " + (data.error || "unknown error"));
     }
 
   } catch (err) {
-    alert("Server error. Please try again later.");
+    alert("Server error");
   }
 }
+
 
 document.addEventListener('keydown', e => {
   if(e.key === 'Escape') closeEnquiry();
