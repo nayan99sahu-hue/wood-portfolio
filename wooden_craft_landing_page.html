@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMV JS Woodcraft — Handcrafted Legacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --wood-dark:#2C1506;
+  --wood-mid:#6B3A18;
+  --wood-warm:#A0622A;
+  --wood-light:#C8874E;
+  --cream:#F8F2E4;
+  --cream-dark:#EDE0C4;
+  --gold:#B8923E;
+  --gold-light:#D4B06A;
+  --text-dark:#1A0D04;
+  --text-mid:#4A2E14;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:1rem 3rem;background:rgba(248,242,228,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(184,146,62,0.2);transition:all 0.3s}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--wood-dark);letter-spacing:0.02em;text-decoration:none}
+.nav-logo span{color:var(--gold);font-style:italic}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color 0.2s;font-weight:500}
+.nav-links a:hover{color:var(--wood-dark)}
+.nav-cta{background:var(--wood-dark);color:var(--cream);border:none;padding:0.6rem 1.6rem;font-family:'Jost',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.25s}
+.nav-cta:hover{background:var(--wood-mid)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:8rem 4rem 4rem;background:var(--cream);position:relative;z-index:2}
+.hero-right{position:relative;overflow:hidden}
+.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(0.88) contrast(1.05) saturate(1.1)}
+.hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg, var(--cream) 0%, transparent 30%)}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:0.35rem 1rem;margin-bottom:2rem;width:fit-content}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5vw,5rem);line-height:1.08;color:var(--wood-dark);margin-bottom:1.6rem;font-weight:700}
+.hero h1 em{color:var(--gold);font-style:italic;display:block}
+.hero-desc{font-size:1rem;line-height:1.8;color:var(--text-mid);font-weight:300;max-width:420px;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--wood-dark);color:var(--cream);border:none;padding:1rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.85rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.25s;text-transform:uppercase;font-weight:500}
+.btn-primary:hover{background:var(--wood-mid);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--wood-dark);border:1.5px solid var(--wood-mid);padding:1rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.85rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.25s;text-transform:uppercase;font-weight:500}
+.btn-outline:hover{background:var(--cream-dark)}
+.hero-stats{display:flex;gap:3rem;margin-top:3.5rem;padding-top:2rem;border-top:1px solid rgba(184,146,62,0.3)}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--wood-dark);font-weight:700;line-height:1}
+.stat-label{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);margin-top:0.3rem}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--wood-dark);padding:0.85rem 0;overflow:hidden}
+.marquee{display:flex;gap:0;animation:scroll 28s linear infinite;white-space:nowrap}
+.marquee-item{font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold-light);flex-shrink:0;padding:0 2rem}
+.marquee-sep{color:var(--wood-warm);flex-shrink:0}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTION BASE */
+section{padding:6rem 3rem}
+.section-tag{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.8rem}
+.section-tag::before{content:'';width:2rem;height:1px;background:var(--gold)}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.5vw,3rem);color:var(--wood-dark);line-height:1.15;margin-bottom:1.2rem;font-weight:700}
+.section-sub{font-size:0.97rem;color:var(--text-mid);font-weight:300;line-height:1.75;max-width:500px}
+
+/* CATEGORIES */
+.categories{background:var(--cream-dark)}
+.cat-header{text-align:center;margin-bottom:4rem}
+.cat-header .section-tag{justify-content:center}
+.cat-header .section-tag::before{display:none}
+.cat-header .section-sub{margin:0 auto}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:1200px;margin:0 auto}
+.cat-card{background:var(--cream);padding:2rem 1.8rem 1.8rem;border:1px solid rgba(184,146,62,0.2);transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden}
+.cat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--wood-warm));transform:scaleX(0);transition:transform 0.3s;transform-origin:left}
+.cat-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(44,21,6,0.12)}
+.cat-card:hover::after{transform:scaleX(1)}
+.cat-icon{width:52px;height:52px;background:var(--wood-dark);margin-bottom:1.4rem;display:flex;align-items:center;justify-content:center}
+.cat-icon svg{width:26px;height:26px;fill:var(--gold-light)}
+.cat-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--wood-dark);margin-bottom:0.5rem;font-weight:600}
+.cat-desc{font-size:0.83rem;color:var(--text-mid);line-height:1.6;font-weight:300}
+
+/* PROCESS */
+.process{background:var(--wood-dark);color:var(--cream)}
+.process .section-tag{color:var(--gold-light)}
+.process .section-title{color:var(--cream)}
+.process .section-sub{color:rgba(248,242,228,0.6)}
+.process-inner{max-width:1200px;margin:0 auto}
+.process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:3.5rem;border:1px solid rgba(255,255,255,0.08)}
+.process-step{padding:2.5rem 1.8rem;border-right:1px solid rgba(255,255,255,0.08);position:relative;transition:background 0.3s}
+.process-step:last-child{border-right:none}
+.process-step:hover{background:rgba(255,255,255,0.04)}
+.step-num{font-family:'Playfair Display',serif;font-size:4rem;font-weight:700;color:rgba(184,146,62,0.12);line-height:1;position:absolute;top:1rem;right:1rem}
+.step-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--gold-light);margin-bottom:0.7rem;margin-top:0.5rem;font-weight:600}
+.step-desc{font-size:0.83rem;color:rgba(248,242,228,0.55);line-height:1.65;font-weight:300}
+
+/* GALLERY */
+.gallery{background:var(--cream)}
+.gallery-inner{max-width:1200px;margin:0 auto}
+.gallery-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto;gap:1.2rem}
+.g-item{position:relative;overflow:hidden;cursor:pointer;background:var(--cream-dark)}
+.g-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+.g-item:nth-child(4){grid-column:span 2}
+.g-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* default: show top of image */
+  transition: transform 0.5s ease;
+  display: block;
+  min-height: 280px;
+}
+.g-item:nth-child(1) img{min-height:380px}
+.g-item:hover img{transform:scale(1.04)}
+.g-overlay{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 1.3rem;background:linear-gradient(transparent,rgba(28,14,5,0.85));transform:translateY(8px);transition:transform 0.3s}
+.g-item:hover .g-overlay{transform:translateY(0)}
+.g-name{font-family:'Playfair Display',serif;font-size:1rem;color:var(--cream);font-weight:600}
+.g-sub{font-size:0.72rem;color:var(--gold-light);letter-spacing:0.1em;margin-top:0.2rem;text-transform:uppercase}
+
+/* ENQUIRY MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(28,14,5,0.75);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--cream);max-width:560px;width:100%;padding:3rem;position:relative;border-top:4px solid var(--gold)}
+.modal-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;font-size:1.5rem;color:var(--text-mid);cursor:pointer;font-family:'Playfair Display',serif;line-height:1}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--wood-dark);margin-bottom:0.4rem;font-weight:700}
+.modal p{font-size:0.88rem;color:var(--text-mid);margin-bottom:2rem;font-weight:300}
+.form-group{margin-bottom:1.2rem}
+.form-group label{display:block;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mid);margin-bottom:0.5rem;font-weight:500}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:0.85rem 1rem;border:1.5px solid rgba(184,146,62,0.3);background:white;font-family:'Jost',sans-serif;font-size:0.9rem;color:var(--text-dark);outline:none;transition:border-color 0.2s;resize:vertical}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group textarea{min-height:100px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-submit{width:100%;background:var(--wood-dark);color:var(--cream);border:none;padding:1.1rem;font-family:'Jost',sans-serif;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;margin-top:0.5rem;font-weight:500}
+.form-submit:hover{background:var(--wood-mid)}
+.form-success{display:none;text-align:center;padding:2rem 0}
+.form-success .check{font-size:3rem;margin-bottom:1rem}
+.form-success h4{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--wood-dark);margin-bottom:0.5rem}
+.form-success p{color:var(--text-mid);font-size:0.9rem;font-weight:300}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--wood-dark) 0%,var(--wood-mid) 100%);text-align:center;padding:6rem 2rem;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 30px,rgba(255,255,255,0.02) 30px,rgba(255,255,255,0.02) 31px)}
+.cta-section .section-tag{justify-content:center;color:var(--gold-light)}
+.cta-section .section-tag::before{display:none}
+.cta-section .section-title{color:var(--cream);margin-bottom:1rem}
+.cta-section .section-sub{color:rgba(248,242,228,0.65);margin:0 auto 3rem}
+.cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.btn-whatsapp{background:#25D366;color:white;border:none;padding:1rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.88rem;letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;gap:0.6rem;text-transform:uppercase;transition:all 0.25s;font-weight:500;text-decoration:none}
+.btn-whatsapp:hover{background:#1DAA55;transform:translateY(-2px)}
+.btn-enquiry{background:transparent;color:var(--cream);border:1.5px solid rgba(248,242,228,0.5);padding:1rem 2.2rem;font-family:'Jost',sans-serif;font-size:0.88rem;letter-spacing:0.08em;cursor:pointer;text-transform:uppercase;transition:all 0.25s;font-weight:500}
+.btn-enquiry:hover{background:rgba(248,242,228,0.1);border-color:var(--cream)}
+
+/* FOOTER */
+footer{background:var(--text-dark);color:var(--cream);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--cream)}
+.footer-logo span{color:var(--gold);font-style:italic}
+.footer-copy{font-size:0.78rem;color:rgba(248,242,228,0.35);letter-spacing:0.05em}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:0.78rem;color:rgba(248,242,228,0.5);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.footer-links a:hover{color:var(--gold-light)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-right{height:50vw;min-height:300px}
+  .hero-left{padding:7rem 2rem 3rem}
+  .process-grid{grid-template-columns:1fr 1fr}
+  .process-step{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08)}
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:4rem 1.5rem}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .g-item:nth-child(1){grid-column:span 2}
+  .g-item:nth-child(4){grid-column:span 1}
+  footer{flex-direction:column;text-align:center;padding:2rem}
+}
+.g-item:nth-child(1) img { min-height: 380px; object-position: center; }
+.g-item:nth-child(3) img { object-position: center top; }
+.g-item:nth-child(5) img { object-position: center center; }
+.g-item:nth-child(6) img { object-position: center center; }
+.g-item:nth-child(7) img { object-position: center top; }
+.g-item:nth-child(8) img { object-position: center top; }
+.g-item:nth-child(9) img { object-position: center top; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">OMV JS <span>Woodcraft</span></a>
+  <ul class="nav-links">
+    <li><a href="#gallery">Work</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#categories">Crafts</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <!-- <button class="nav-cta" onclick="openEnquiry()">Get a Quote</button> -->
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">✦ Handcrafted since generations</div>
+    <h1>Wood is not a<br>material. It's a<br><em>legacy.</em></h1>
+    <p class="hero-desc">Every piece we carve tells a story — born from raw timber, shaped by skilled hands, and finished with the patience of masters. Custom mandirs, doors, furniture & sculptures.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('gallery').scrollIntoView({behavior:'smooth'})">Explore Our Work</button>
+      <!-- <button class="btn-outline" onclick="openEnquiry()">Custom Order</button> -->
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">15+</div><div class="stat-label">Years Crafting</div></div>
+      <div><div class="stat-num">500+</div><div class="stat-label">Pieces Delivered</div></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">Handmade</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+        <img src="assets/main_gate.png" alt="Grand Carved Temple Door">
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span class="marquee-item">Teak Wood Mandirs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Hand-Carved Doors</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Throne Chairs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Jhoola Swings</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Sculpted Relief Panels</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Peacock Sculptures</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Custom Carvings</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Temple Mandirs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Teak Wood Mandirs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Hand-Carved Doors</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Throne Chairs</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Jhoola Swings</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Sculpted Relief Panels</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Peacock Sculptures</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Custom Carvings</span><span class="marquee-sep">✦</span>
+    <span class="marquee-item">Temple Mandirs</span><span class="marquee-sep">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="cat-header">
+    <div class="section-tag">What We Make</div>
+    <h2 class="section-title">Crafted for every space,<br>every occasion</h2>
+    <p class="section-sub">From grand temple doors to intimate pooja mandirs — each creation is tailored to your vision, carved with devotion.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 2L3 7v10l9 5 9-5V7L12 2zm0 2.3l7 3.9v8.6l-7 3.9-7-3.9V8.2l7-3.9z"/></svg></div>
+      <div class="cat-name">Mandirs & Temples</div>
+      <div class="cat-desc">Home shrines and large-scale temple structures, intricately carved with sacred motifs in premium teak.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5V3zm2 2v14h10V5H7zm2 2h6v2H9V7zm0 4h6v2H9v-2zm0 4h4v2H9v-2z"/></svg></div>
+      <div class="cat-name">Carved Doors</div>
+      <div class="cat-desc">Grand entrance doors with peacocks, florals, and traditional patterns — a statement at every threshold.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M6 2h12l2 6H4l2-6zM3 9h18v2H3V9zm1 3h16v10H4V12zm2 2v6h12v-6H6z"/></svg></div>
+      <div class="cat-name">Royal Furniture</div>
+      <div class="cat-desc">Throne chairs, carved sofas, and signature pieces that command presence in any room.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H7l5-8v4h4l-5 8z"/></svg></div>
+      <div class="cat-name">Jhoola Swings</div>
+      <div class="cat-desc">Ornate wooden swings for home and temple — arched, pillared, and hand-embellished with peacock motifs.</div>
+    </div>
+    <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 3C8 3 5 6 5 10c0 2.5 1.2 4.7 3 6.1V19h8v-2.9C17.8 14.7 19 12.5 19 10c0-4-3-7-7-7zm-1 14v1H9v-3.4C7.8 13.4 7 11.8 7 10c0-2.8 2.2-5 5-5s5 2.2 5 5c0 1.8-.8 3.4-2 4.6V17h-4z"/></svg></div>
+      <div class="cat-name">Relief Panels & Art</div>
+      <div class="cat-desc">Wall panels with deities, elephants, and narrative carvings — museum-quality wooden art for every wall.</div>
+    </div>
+    <!-- <div class="cat-card">
+      <div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7L2 9l7-1 3-6z"/></svg></div>
+      <div class="cat-name">Sculptures</div>
+      <div class="cat-desc">Standalone wooden sculptures — peacocks, elephants, and divine figures carved masterfully in the round.</div>
+    </div>
+  </div> -->
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <div>
+        <div class="section-tag">Our Portfolio</div>
+        <h2 class="section-title" style="margin-bottom:0">Recent creations</h2>
+      </div>
+      <button class="btn-outline" onclick="openEnquiry()">Order a Piece</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="g-item">
+        <img src="assets/main_gate.png" alt="Grand Carved Temple Door">
+        <div class="g-overlay">
+          <div class="g-name">Grand Carved Temple Door</div>
+          <div class="g-sub">Teak Wood · Custom Size</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/temple_2.png" alt="Temple Mandir with Shikhara">
+        <div class="g-overlay">
+          <div class="g-name">Temple Mandir with Shikhara</div>
+          <div class="g-sub">Teak Wood · 5ft</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/temple_1.png" alt="Traditional Jhula">
+        <div class="g-overlay">
+          <div class="g-name">Traditional Jhula</div>
+          <div class="g-sub">Sheesham Wood · 4ft</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/jhula.png" alt="Decorative Jhula Swing">
+        <div class="g-overlay">
+          <div class="g-name">Decorative Jhula Swing</div>
+          <div class="g-sub">Teak Wood · Custom</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/statue.png" alt="Carved Deity Statue Panel">
+        <div class="g-overlay">
+          <div class="g-name">Carved Deity Statue Panel</div>
+          <div class="g-sub">Teak Wood · Wall Mount</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/peacock.png" alt="Peacock Carved Décor">
+        <div class="g-overlay">
+          <div class="g-name">Peacock Carved Décor</div>
+          <div class="g-sub">Mango Wood · Decorative</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/temple_3.png" alt="Classic Home Mandir">
+        <div class="g-overlay">
+          <div class="g-name">Classic Home Mandir</div>
+          <div class="g-sub">Teak Wood · 3ft</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/temple_4.png" alt="Open Arch Temple">
+        <div class="g-overlay">
+          <div class="g-name">Open Arch Temple</div>
+          <div class="g-sub">Sheesham Wood · 2.5ft</div>
+        </div>
+      </div>
+      <div class="g-item">
+        <img src="assets/temple_5.png" alt="Compact Pooja Mandir">
+        <div class="g-overlay">
+          <div class="g-name">Compact Pooja Mandir</div>
+          <div class="g-sub">Teak Wood · 2ft</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="section-tag">How We Work</div>
+    <h2 class="section-title">From vision to<br>heirloom</h2>
+    <p class="section-sub">Our process is unhurried, because great woodcraft cannot be rushed. Every piece is a collaboration between artisan and patron.</p>
+    <div class="process-grid">
+      <div class="process-step"><div class="step-num">01</div><div class="step-title">Consultation</div><div class="step-desc">We understand your vision, space, and purpose. Every piece begins with a conversation.</div></div>
+      <div class="process-step"><div class="step-num">02</div><div class="step-title">Design & Sketch</div><div class="step-desc">Detailed drawings are prepared, motifs chosen, and dimensions finalized with you.</div></div>
+      <div class="process-step"><div class="step-num">03</div><div class="step-title">Wood Selection</div><div class="step-desc">Premium seasoned teak, sheesham, or mango wood is carefully chosen for each project.</div></div>
+      <div class="process-step"><div class="step-num">04</div><div class="step-title">Hand Carving</div><div class="step-desc">Skilled artisans carve every detail by hand — no shortcuts, no machines for the artistry.</div></div>
+      <div class="process-step"><div class="step-num">05</div><div class="step-title">Finish & Delivery</div><div class="step-desc">Natural oil or polish is applied, and your piece is safely packed and delivered.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="section-tag">Start Your Journey</div>
+  <h2 class="section-title">Have something in mind?<br>Let's bring it to life.</h2>
+  <p class="section-sub">Whether it's a home mandir, a grand door, or a custom sculpture — reach out and we'll respond within 24 hours.</p>
+  <div class="cta-actions">
+    <a href="https://wa.me/+916265007710" target="_blank" class="btn-whatsapp">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <!-- <button class="btn-enquiry" onclick="openEnquiry()">Send an Enquiry</button> -->
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">OMV JS<span>Woodcraft</span></div>
+  <div class="footer-copy">© 2026 · All pieces handcrafted with care · Indore, MP</div>
+  <div class="footer-links">
+    <a href="https://wa.me/+916265007710" target="_blank">WhatsApp</a>
+    <a href="tel:+916265007710">Call Us</a>
+  </div>
+</footer>
+
+<!-- ENQUIRY MODAL -->
+<div class="modal-overlay" id="enquiryModal" onclick="closeEnquiryOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEnquiry()">×</button>
+    <div id="formContent">
+      <h3>Request a Quote</h3>
+      <p>Tell us about your dream piece and we'll get back to you within 24 hours.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name *</label>
+          <input type="text" id="fname" placeholder="Full name" required>
+        </div>
+        <div class="form-group">
+          <label>Phone / WhatsApp *</label>
+          <input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Product Interested In</label>
+        <select id="fproduct">
+          <option value="">Select a category...</option>
+          <option>Mandir / Temple</option>
+          <option>Carved Door</option>
+          <option>Jhoola Swing</option>
+          <option>Relief Panel / Wall Art</option>
+          <option>Peacock / Animal Sculpture</option>
+          <option>Royal Furniture / Chair</option>
+          <option>Custom Project</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea id="fmessage" placeholder="Describe your vision — size, design, wood type, occasion, or any specific requirements..."></textarea>
+      </div>
+      <button class="form-submit" onclick="submitEnquiry()">Send Enquiry →</button>
+    </div>
+    <div class="form-success" id="formSuccess">
+      <div class="check">🙏</div>
+      <h4>Thank you for reaching out!</h4>
+      <p>We've received your enquiry and will contact you on WhatsApp within 24 hours.<br><br>For faster response, you can also chat with us directly.</p>
+      <br>
+      <a href="https://wa.me/6265007710" target="_blank" class="btn-whatsapp" style="display:inline-flex;margin:0 auto">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Open WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+function openEnquiry(){document.getElementById('enquiryModal').classList.add('open');document.body.style.overflow='hidden'}
+function closeEnquiry(){document.getElementById('enquiryModal').classList.remove('open');document.body.style.overflow=''}
+function closeEnquiryOutside(e){if(e.target===document.getElementById('enquiryModal'))closeEnquiry()}
+function submitEnquiry(){
+  const name=document.getElementById('fname').value.trim();
+  const phone=document.getElementById('fphone').value.trim();
+  if(!name||!phone){alert('Please fill in your name and phone number.');return}
+  document.getElementById('formContent').style.display='none';
+  document.getElementById('formSuccess').style.display='block';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeEnquiry()})
+</script>
+</body>
+</html>
